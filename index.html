@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Home</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <!--
+      Need a visual blank slate?
+      Remove all code in `styles.css`!
+    -->
+    <link rel="stylesheet" href="./css/style.css" />
+    <script type="module" src="script.js"></script>
+  </head>
+  <body>
+    <div class="watch">
+      <div class="time">00:00:00</div>
+      <div class="controls">
+        <button id="start">start</button>
+        <button id="stop">stop</button>
+
+        <button id="reset">reset</button>
+      </div>
+    </div>
+    <script>
+      const timeEl = document.querySelector('.watch .time');
+      const startBtn = document.getElementById('start');
+      const stopBtn = document.getElementById('stop');
+      const resetBtn = document.getElementById('reset');
+
+      let seconds = 0;
+      let interval = null;
+      startBtn.addEventListener('click', start);
+      stopBtn.addEventListener('click', stop);
+      resetBtn.addEventListener('click', reset);
+
+      function timer() {
+        seconds++;
+        let hrs = Math.floor(seconds / 3600);
+        let mins = Math.floor((seconds - hrs * 3600) / 60);
+
+        let secs = seconds % 60;
+        if (secs < 10) secs = '0' + secs;
+        if (mins < 10) mins = '0' + mins;
+        if (hrs < 10) hrs = '0' + hrs;
+
+        timeEl.innerText = `${hrs}:${mins}:${secs}`;
+      }
+      function start() {
+        if (interval) {
+          return;
+        }
+        interval = setInterval(timer, 1000);
+      }
+      function stop() {
+        clearInterval(interval);
+        interval = null;
+      }
+      function reset() {
+        stop();
+        seconds = 0;
+        timeEl.innerText = '00:00:00';
+      }
+    </script>
+  </body>
+</html>
